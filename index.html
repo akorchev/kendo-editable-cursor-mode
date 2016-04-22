@@ -20,7 +20,11 @@
       </select>
       <div id="grid"></div>
       <script>
-        $(document).ready(function () {
+        $(function () {
+          $('#selection').change(function() {
+            $('#grid').getKendoGrid().options.editable.cursorMode = this.value;
+          });
+
           var crudServiceBaseUrl = "http://demos.telerik.com/kendo-ui/service",
             dataSource = new kendo.data.DataSource({
               transport: {
@@ -75,7 +79,10 @@
                 { field: "UnitsInStock", title: "Units In Stock", width: 120 },
                 { field: "Discontinued", width: 120 },
                 { command: "destroy", title: "&nbsp;", width: 150 }],
-                editable: true
+                editable: {
+                  mode: 'incell',
+                  cursorMode: $('#selection').val()
+                }
             });
         });
       </script>

@@ -8,8 +8,15 @@
     init: function(element, options) {
       $(element).on('focusin' + NS, ':text', $.proxy(this._focus, this));
 
+      var grid = $(element).closest('[data-role=grid]').data('kendoGrid');
+
+      if (grid && grid.options.editable) {
+        this._mode = grid.options.editable.cursorMode || 'end';
+      }
+
       Editable.prototype.init.call(this, element, options);
     },
+    _mode: 'end',
     destroy: function() {
       Editable.prototype.destroy.call(this);
 
@@ -21,7 +28,7 @@
       this._select(target)
     },
     _select: function(target) {
-      var mode = $('#selection').val();
+      var mode = this._mode;
 
       setTimeout(function() {
         if (mode == 'start') {
